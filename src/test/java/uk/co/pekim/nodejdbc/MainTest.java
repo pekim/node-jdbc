@@ -33,6 +33,7 @@ public class MainTest {
         Main.main(new String[] {"{}"});
     }
 
+    @SuppressWarnings("serial")
     protected static class ExitException extends SecurityException {
         public final int status;
 

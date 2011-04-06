@@ -106,7 +106,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>uk.co.pekim.nodejdbc.NodeJdbc</mainClass>
+              <mainClass>uk.co.pekim.nodejdbc.Main</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

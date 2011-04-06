@@ -13,13 +13,13 @@ import uk.co.pekim.nodejdbc.configuration.Configuration;
  * 
  * @author Mike D Pilsbury
  */
-public class NodeJdbc {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJdbc.class);
+public class Main {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private final ApplicationContext context;
     private final Configuration configuration;
 
-    private NodeJdbc(String configurationJson) {
+    private Main(String configurationJson) {
         this.configuration = Configuration.parseJson(configurationJson);
         this.context = new ClassPathXmlApplicationContext(new String[] { "/uk/co/pekim/nodejdbc/nodejdbc.xml" });
     }
@@ -39,7 +39,7 @@ public class NodeJdbc {
                 throw new NodeJdbcException("Expected 1 argument, a JSON string");
             }
 
-            new NodeJdbc(args[0]).run();
+            new Main(args[0]).run();
         } catch (NodeJdbcException exception) {
             LOGGER.error("Fatal error", exception);
             throw exception;
@@ -47,6 +47,6 @@ public class NodeJdbc {
     }
 
     private static void initialiseLogging() {
-        DOMConfigurator.configure(NodeJdbc.class.getResource("/uk/co/pekim/nodejdbc/log4j.xml"));
+        DOMConfigurator.configure(Main.class.getResource("/uk/co/pekim/nodejdbc/log4j.xml"));
     }
 }

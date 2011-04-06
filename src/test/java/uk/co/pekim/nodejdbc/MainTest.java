@@ -6,19 +6,19 @@ import org.junit.Test;
 /**
  * Unit test for NodeJdbc.
  */
-public class NodeJdbcTest {
+public class MainTest {
     @Test(expected = NodeJdbcException.class)
     public void testMissingJsonArg() {
-        NodeJdbc.main(new String[] {""});
+        Main.main(new String[] {""});
     }
 
     @Test(expected = NodeJdbcException.class)
     public void testBadJsonArg() {
-        NodeJdbc.main(new String[] {"", "bad"});
+        Main.main(new String[] {"", "bad"});
     }
 
     @Test
     public void testGoodJsonArg() {
-        NodeJdbc.main(new String[] {"", "{}"});
+        Main.main(new String[] {"", "{}"});
     }
 }

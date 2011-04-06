@@ -9,6 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import uk.co.pekim.nodejdbc.configuration.Configuration;
 
 /**
+ * Node/JDBC bridge server.
  * 
  * @author Mike D Pilsbury
  */
@@ -24,6 +25,8 @@ public class NodeJdbc {
     }
 
     private void run() {
+        LOGGER.info("Starting NodeJdbc server");
+        
         Object bean = context.getBean("testbean", TestBean.class);
         LOGGER.info(bean.toString());
     }
@@ -32,11 +35,11 @@ public class NodeJdbc {
         initialiseLogging();
 
         try {
-            if (args.length < 2) {
+            if (args.length < 1) {
                 throw new NodeJdbcException("Expected 1 argument, a JSON string");
             }
-            
-            new NodeJdbc(args[1]).run();
+
+            new NodeJdbc(args[0]).run();
         } catch (NodeJdbcException exception) {
             LOGGER.error("Fatal error", exception);
             throw exception;
@@ -44,7 +47,6 @@ public class NodeJdbc {
     }
 
     private static void initialiseLogging() {
-        DOMConfigurator.configure(NodeJdbc.class
-                .getResource("/uk/co/pekim/nodejdbc/log4j.xml"));
+        DOMConfigurator.configure(NodeJdbc.class.getResource("/uk/co/pekim/nodejdbc/log4j.xml"));
     }
 }

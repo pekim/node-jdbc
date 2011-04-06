@@ -42,7 +42,7 @@ public class Main {
             new Main(args[0]).run();
         } catch (NodeJdbcException exception) {
             LOGGER.error("Fatal error", exception);
-            throw exception;
+            System.exit(1);
         }
     }
 

@@ -20,6 +20,11 @@
       <name>Spring Framework Maven Release Repository</name>
       <url>http://maven.springframework.org/release</url>
     </repository>
+    <repository>
+      <id>glassfish-maven2-repository.dev.java.net</id>
+      <name>Java.net Maven 2 Repository for GlassFish</name>
+      <url>http://download.java.net/maven/glassfish/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -79,6 +84,11 @@
       <artifactId>jackson-mapper-asl</artifactId>
       <version>1.7.5</version>
       <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.grizzly</groupId>
+      <artifactId>grizzly-framework</artifactId>
+      <version>2.0</version>
     </dependency>
   </dependencies>
 

@@ -1,5 +1,7 @@
 package uk.co.pekim.nodejdbc;
 
+import java.io.IOException;
+
 import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uk.co.pekim.nodejdbc.configuration.Configuration;
+import uk.co.pekim.nodejdbc.server.Server;
 
 /**
  * Node/JDBC bridge server.
@@ -29,6 +32,13 @@ public class Main {
         
         Object bean = context.getBean("testbean", TestBean.class);
         LOGGER.info(bean.toString());
+        
+        try {
+            new Server().run();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

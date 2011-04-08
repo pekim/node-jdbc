@@ -5,7 +5,6 @@ pass listening port back to node
 UTF-8
 
 filters
-  netstring
   json
   request
     async

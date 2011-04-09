@@ -33,8 +33,8 @@ server = net.createServer(function connected(socket) {
   });
 });
 server.listen();
-
 configuration.node.port = server.address().port;
+console.log('Node server initialised on port ' + configuration.node.port);
 
 javaProcess = spawn('java', ['-jar', jar, JSON.stringify(configuration)]);
 
@@ -53,6 +53,6 @@ javaProcess.on('exit', function (code) {
 function serverInitialised(message) {
   serverPort = message.port;
 
-  console.log('Server initialised on port ' + serverPort);
+  console.log('Java server initialised on port ' + serverPort);
 }
 

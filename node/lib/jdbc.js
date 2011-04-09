@@ -9,42 +9,18 @@ var spawn = require('child_process').spawn,
       }
     },
     net = require('net'),
-    netstring = require('netstring'),
+    NetstringBuffer = require('../lib/netstring-buffer'),
     server;
 
 server = net.createServer(function(socket) {
-  //socket.setEncoding('utf8');
-  var buffer;
+  var buffer = new NetstringBuffer();
+
+  buffer.on('payload', function(payload) {
+    console.log('payload : ' + payload);
+  });
 
   socket.on('data', function(data) {
-    var newBuffer,
-        netstringLength,
-        remainingLength,
-        payload;
-    
-    console.log('data : ' + data);
-    
-    if (buffer) {
-      newBuffer = new Buffer(buffer.length + data.length);
-      buffer.copy(newBuffer, 0, 0);
-      data.copy(newBuffer, buffer.length, 0);
-      buffer = newBuffer;
-    } else {
-      buffer = data;
-    }
-    
-    netstringLength = netstring.nsLength(buffer);
-    while (netstringLength > 0 && buffer.length >= netstringLength) {
-      payload = netstring.nsPayload(buffer).toString('utf8');
-      console.log('payload : ' + payload);
-
-      remainingLength = buffer.length - netstringLength;
-      newBuffer = new Buffer(remainingLength);
-      buffer.copy(newBuffer, 0, netstringLength, netstringLength + remainingLength);
-      buffer = newBuffer;
-      
-      netstringLength = netstring.nsLength(buffer);
-    }
+    buffer.put(data);
   });
 });
 server.listen();

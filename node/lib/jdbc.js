@@ -10,13 +10,22 @@ var spawn = require('child_process').spawn,
     },
     net = require('net'),
     NetstringBuffer = require('../lib/netstring-buffer'),
-    server;
+    server,
+    serverPort;
 
 server = net.createServer(function connected(socket) {
   var buffer = new NetstringBuffer();
 
   buffer.on('payload', function payload(payload) {
-    console.log('payload : ' + payload);
+    var message = JSON.parse(payload);
+    
+    switch (message.type) {
+    case 'initialised':
+      serverInitialised(message);
+      break;
+    default:
+      console.error('Unrecognised message type from server : ' + message.type);
+    }
   });
 
   socket.on('data', function data(data) {
@@ -40,3 +49,10 @@ javaProcess.stderr.on('data', function (data) {
 javaProcess.on('exit', function (code) {
   console.log('exited : ' + code);
 });
+
+function serverInitialised(message) {
+  serverPort = message.port;
+
+  console.log('Server initialised on port ' + serverPort);
+}
+

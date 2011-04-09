@@ -11,15 +11,15 @@ import uk.co.pekim.nodejdbc.NodeJdbcException;
 public class Configuration {
     private Node node;
     private Jdbc jdbc;
-    private static final ObjectMapper mapper;
+    private static final ObjectMapper jsonMapper;
     
     static {
-        mapper = new ObjectMapper();
+        jsonMapper = new ObjectMapper();
     }
     
     public static Configuration parseJson(String json)  {
         try {
-            return mapper.readValue(json, Configuration.class);
+            return jsonMapper.readValue(json, Configuration.class);
         } catch (JsonParseException exception) {
             throw new NodeJdbcException("Failed to parse JSON " + json, exception);
         } catch (JsonMappingException exception) {

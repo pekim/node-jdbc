@@ -13,7 +13,7 @@ public class MainTest {
     public void clearSecurityManager() {
         System.setSecurityManager(null);
     }
-    
+
     @Test(expected = ExitException.class)
     public void testMissingJsonArg() {
         System.setSecurityManager(new NoExitSecurityManager());
@@ -25,13 +25,13 @@ public class MainTest {
     public void testBadJsonArg() {
         System.setSecurityManager(new NoExitSecurityManager());
 
-        Main.main(new String[] {"bad"});
+        Main.main(new String[] { "bad" });
     }
 
-    @Test
-    public void testGoodJsonArg() {
-        Main.main(new String[] {"{}"});
-    }
+    // @Test
+    // public void testGoodJsonArg() {
+    // Main.main(new String[] {"{}"});
+    // }
 
     @SuppressWarnings("serial")
     protected static class ExitException extends SecurityException {

@@ -5,10 +5,10 @@ import java.io.IOException;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import uk.co.pekim.nodejdbc.configuration.Configuration;
+import uk.co.pekim.nodejdbc.notifynode.NotifyInitialised;
+import uk.co.pekim.nodejdbc.notifynode.NotifyNode;
 import uk.co.pekim.nodejdbc.server.Server;
 
 /**
@@ -16,32 +16,48 @@ import uk.co.pekim.nodejdbc.server.Server;
  * 
  * @author Mike D Pilsbury
  */
-public class Main {
+public final class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    private final ApplicationContext context;
+    // private final ApplicationContext context;
     private final Configuration configuration;
 
-    private Main(String configurationJson) {
+    private Main(final String configurationJson) {
         this.configuration = Configuration.parseJson(configurationJson);
-        this.context = new ClassPathXmlApplicationContext(new String[] { "/uk/co/pekim/nodejdbc/nodejdbc.xml" });
+        // this.context = new ClassPathXmlApplicationContext(new String[] {
+        // "/uk/co/pekim/nodejdbc/nodejdbc.xml" });
     }
 
     private void run() {
         LOGGER.info("Starting NodeJdbc server");
-        
-        Object bean = context.getBean("testbean", TestBean.class);
-        LOGGER.info(bean.toString());
-        
+
+        // Object bean = context.getBean("testbean", TestBean.class);
+        // LOGGER.info(bean.toString());
+
         try {
-            new Server().run();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Server server = new Server();
+            server.start();
+
+            NotifyNode notifyNode = new NotifyNode(configuration.getNode().getPort());
+            notifyNode.send(new NotifyInitialised(server.getAddress().getPort()));
+
+            synchronized (this) {
+                wait();
+            }
+        } catch (IOException exception) {
+            throw new NodeJdbcException("Server problem", exception);
+        } catch (InterruptedException exception) {
+            throw new NodeJdbcException("Server problem", exception);
         }
     }
 
-    public static void main(String[] args) {
+    /**
+     * Run the server.
+     * 
+     * @param args
+     *            command arguments.
+     */
+    public static void main(final String[] args) {
         initialiseLogging();
 
         try {

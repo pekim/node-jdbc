@@ -4,9 +4,11 @@
 package uk.co.pekim.nodejdbc.server;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 
 import org.glassfish.grizzly.filterchain.FilterChainBuilder;
 import org.glassfish.grizzly.filterchain.TransportFilter;
+import org.glassfish.grizzly.nio.transport.TCPNIOServerConnection;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
 import org.slf4j.Logger;
@@ -21,40 +23,42 @@ import org.slf4j.LoggerFactory;
 public class Server {
     private static final Logger LOGGER = LoggerFactory.getLogger(Server.class);
 
-    public static final String HOST = "localhost";
-    public static final int PORT = 7777;
+    private static final String HOST = "localhost";
 
-    public void run() throws IOException {
-        // Create a FilterChain using FilterChainBuilder
+    private InetSocketAddress address;
+
+    /**
+     * Run the server.
+     * 
+     * @throws IOException
+     *             exception
+     */
+    public void start() throws IOException {
         FilterChainBuilder filterChainBuilder = FilterChainBuilder.stateless();
 
-        // Add TransportFilter, which is responsible
-        // for reading and writing data to the connection
         filterChainBuilder.add(new TransportFilter());
-
-        // StringFilter is responsible for Buffer <-> String conversion
         filterChainBuilder.add(new NetStringFilter());
         filterChainBuilder.add(new JsonFilter());
 
-        // Create TCP transport
         final TCPNIOTransport transport = TCPNIOTransportBuilder.newInstance().build();
 
         transport.setProcessor(filterChainBuilder.build());
-        try {
-            // binding transport to start listen on certain host and port
-            transport.bind(HOST, PORT);
 
-            // start the transport
-            transport.start();
+        address = new InetSocketAddress(HOST, 0);
+        TCPNIOServerConnection serverConnection = transport.bind(0);
+        address = (InetSocketAddress) serverConnection.getLocalAddress();
 
-            LOGGER.info("Press any key to stop the server...");
-            System.in.read();
-        } finally {
-            LOGGER.info("Stopping transport...");
-            // stop the transport
-            transport.stop();
+        LOGGER.info("Server bound to port " + address.getPort());
 
-            LOGGER.info("Stopped transport...");
-        }
+        transport.start();
+    }
+
+    /**
+     * The address the server is bound to.
+     * 
+     * @return the address
+     */
+    public InetSocketAddress getAddress() {
+        return address;
     }
 }

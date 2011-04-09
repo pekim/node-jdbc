@@ -15,5 +15,8 @@
   },
   "dependencies" : {
     "netstring" : ""
+  },
+  "devDependencies" : {
+    "nodeunit" : ""
   }
 }

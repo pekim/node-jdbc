@@ -1,2 +1,2 @@
-var jdbc = require('jdbc');
+var jdbc = require('../lib/jdbc.js');
 

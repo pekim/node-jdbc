@@ -21,7 +21,7 @@ import uk.co.pekim.nodejdbc.netstring.Netstring;
  * 
  * @author Mike D Pilsbury
  */
-public class NotifyNode {
+public class NodeNotifier {
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
     private OutputStreamWriter output;
@@ -32,7 +32,7 @@ public class NotifyNode {
      * @param port
      *            the port that a Node instance is listening on.
      */
-    public NotifyNode(final int port) {
+    public NodeNotifier(final int port) {
         try {
             final Socket socket = new Socket(InetAddress.getLocalHost(), port);
             output = new OutputStreamWriter(socket.getOutputStream());

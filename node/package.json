@@ -1,0 +1,19 @@
+{
+  "name": "jdbc",
+  "description": "A Node/JDBC bridge.",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "author": "Mike D Pilsbury <mike.pilsbury@gmail.com>",
+  "main": "jdbc",
+  "directories": {
+    "lib": "node_modules"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "dependencies" : {
+    "netstring" : ""
+  }
+}

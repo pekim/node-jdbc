@@ -4,11 +4,11 @@
 package uk.co.pekim.nodejdbc.notifynode;
 
 /**
- * Message to Node ifnormaing that we've initialised.
+ * Message to Node informing that we've initialised.
  * 
  * @author Mike D Pilsbury
  */
-public class NotifyInitialised {
+public class NotifyInitialised extends NotifyMessage {
     private int port;
 
     /**
@@ -18,6 +18,8 @@ public class NotifyInitialised {
      *            the port.
      */
     public NotifyInitialised(final int port) {
+        super("initialised");
+
         this.port = port;
     }
 

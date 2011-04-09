@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.co.pekim.nodejdbc.configuration.Configuration;
 import uk.co.pekim.nodejdbc.notifynode.NotifyInitialised;
-import uk.co.pekim.nodejdbc.notifynode.NotifyNode;
+import uk.co.pekim.nodejdbc.notifynode.NodeNotifier;
 import uk.co.pekim.nodejdbc.server.Server;
 
 /**
@@ -38,7 +38,7 @@ public final class Main {
             Server server = new Server();
             server.start();
 
-            NotifyNode notifyNode = new NotifyNode(configuration.getNode().getPort());
+            NodeNotifier notifyNode = new NodeNotifier(configuration.getNode().getPort());
             notifyNode.send(new NotifyInitialised(server.getAddress().getPort()));
 
             synchronized (this) {

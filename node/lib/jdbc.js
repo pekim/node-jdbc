@@ -12,14 +12,14 @@ var spawn = require('child_process').spawn,
     NetstringBuffer = require('../lib/netstring-buffer'),
     server;
 
-server = net.createServer(function(socket) {
+server = net.createServer(function connected(socket) {
   var buffer = new NetstringBuffer();
 
-  buffer.on('payload', function(payload) {
+  buffer.on('payload', function payload(payload) {
     console.log('payload : ' + payload);
   });
 
-  socket.on('data', function(data) {
+  socket.on('data', function data(data) {
     buffer.put(data);
   });
 });

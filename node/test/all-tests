@@ -1,0 +1,8 @@
+#!/bin/sh
+
+dir=$(dirname $0)
+
+find $dir -type f -name "*-test.js" | \
+  while read file; do
+    nodeunit $file
+  done

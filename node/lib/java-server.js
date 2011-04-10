@@ -2,9 +2,10 @@ var spawn = require('child_process').spawn,
     util = require('util'),
     events = require('events'),
 
-    jar = '../target/node-jdbc-0.0.1-SNAPSHOT-jar-with-dependencies.jar';
+    jar = '../target/node-jdbc-0.0.1-SNAPSHOT-jar-with-dependencies.jar',
+    Server;
 
-var Server = function () {
+Server = function () {
   var self = this;
   
   events.EventEmitter.call(self);

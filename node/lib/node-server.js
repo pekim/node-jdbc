@@ -1,9 +1,10 @@
 var net = require('net'),
     NetstringBuffer = require('./netstring-buffer'),
     util = require('util'),
-    events = require('events');
+    events = require('events'),
+    Server;
 
-var Server = function () {
+Server = function () {
   var self = this;
   
   events.EventEmitter.call(self);

@@ -1,14 +1,17 @@
-auto port number
-
-pass listening port back to node
-
-UTF-8
-
 filters
   json
   request
     async
 
-tests
-  netstring
+emit initialised (ready) event
 
+tests
+  node
+    whole jdbc
+      do nothing
+      test request
+    one command for running all tests
+  java
+
+log4j formatting
+  

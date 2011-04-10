@@ -15,7 +15,9 @@ Server = function () {
     buffer.on('payload', function payload(payload) {
       var message = JSON.parse(payload);
 
-      self.emit(message.type, message);
+      if (message.type !== 'alive') {
+        self.emit(message.type, message);
+      }
     });
 
     socket.on('data', function data(data) {

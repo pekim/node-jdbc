@@ -1,6 +1,7 @@
 var util = require('util'),
     events = require('events'),
     javaServer = require('./java-server'),
+    NetstringBuffer = require('./netstring-buffer'),
     net = require('net'),
     netstring = require('netstring'),
     Connection,
@@ -12,14 +13,24 @@ Connection = function (url, connectedCallback) {
   events.EventEmitter.call(self);
   
   jdbc.onInitialised(function() {
-    var socket = net.createConnection(javaServer.port);
+    var socket = net.createConnection(javaServer.port),
+        buffer = new NetstringBuffer();
 
     socket.on('connect', function connect() {
-      send({url: url});
+      send({
+        type: 'connect',
+        url: url
+      });
+    });
+
+    buffer.on('payload', function payload(payload) {
+      var message = JSON.parse(payload);
+
+      connectedCallback();
     });
 
     socket.on('data', function data(data) {
-      connectedCallback();
+      buffer.put(data);
     });
     
     function send(message) {

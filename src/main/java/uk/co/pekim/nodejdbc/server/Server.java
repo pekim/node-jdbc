@@ -39,6 +39,7 @@ public class Server {
         filterChainBuilder.add(new TransportFilter());
         filterChainBuilder.add(new NetStringFilter());
         filterChainBuilder.add(new JsonFilter());
+        filterChainBuilder.add(new ProcessRequestFilter());
 
         final TCPNIOTransport transport = TCPNIOTransportBuilder.newInstance().build();
 

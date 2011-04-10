@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.pekim.nodejdbc.server.response.ConnectResponse;
+import uk.co.pekim.nodejdbc.server.response.ErrorResponse;
 import uk.co.pekim.nodejdbc.server.response.Response;
 
 /**
@@ -26,13 +27,14 @@ public class ConnectRequest extends Request {
     @Override
     protected Response process() {
         try {
+            LOGGER.info("url : " + url);
             Connection connection = DriverManager.getConnection(url);
-            LOGGER.info(connection.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return new ConnectResponse();
+            return new ConnectResponse();
+        } catch (SQLException exception) {
+            LOGGER.error("Failed to connect to database with : " + url, exception);
+            return new ErrorResponse(exception.getMessage());
+        }
     }
 
     /**

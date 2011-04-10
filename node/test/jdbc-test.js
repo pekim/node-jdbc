@@ -15,7 +15,7 @@ exports.connected = function(test){
 
   test.expect(0);
   
-  connection = new Connection('jdbc:hsqldb:mem:', function connected() {
+  connection = new Connection('jdbc:hsqldb:mem:test', function connected() {
     test.done();
   });
 };

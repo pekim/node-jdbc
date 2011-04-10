@@ -4,7 +4,7 @@
 package uk.co.pekim.nodejdbc.server.response;
 
 /**
- * 
+ * A successful connection.
  * 
  * @author Mike D Pilsbury
  */

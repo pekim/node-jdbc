@@ -3,7 +3,7 @@ var net = require('net'),
     util = require('util'),
     events = require('events');
 
-var NodeServer = function () {
+var Server = function () {
   var self = this;
   
   events.EventEmitter.call(self);
@@ -27,10 +27,10 @@ var NodeServer = function () {
   console.log('Node server initialised on port ' + self.port());
 };
 
-util.inherits(NodeServer, events.EventEmitter);
+util.inherits(Server, events.EventEmitter);
 
-NodeServer.prototype.port = function () {
+Server.prototype.port = function () {
   return this.server.address().port;
 };
 
-module.exports = new NodeServer();
+module.exports = new Server();

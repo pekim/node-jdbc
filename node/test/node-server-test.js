@@ -2,13 +2,13 @@ var server = require('../lib/node-server'),
     net = require('net'),
     netstring = require('netstring');
 
-exports.port = function(test){
+exports.port = function(test) {
   test.ok(server.port() > 0);
 
   test.done();
 };
 
-exports.message = function(test){
+exports.message = function(test) {
   var socket;
 
   test.expect(1);

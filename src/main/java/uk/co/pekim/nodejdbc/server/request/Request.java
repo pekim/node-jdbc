@@ -3,6 +3,8 @@
  */
 package uk.co.pekim.nodejdbc.server.request;
 
+import uk.co.pekim.nodejdbc.server.response.Response;
+
 /**
  * Base class for all requests (that are mapped from JSON).
  * 
@@ -10,6 +12,8 @@ package uk.co.pekim.nodejdbc.server.request;
  */
 public abstract class Request {
     private String type;
+
+    protected abstract Response process();
 
     /**
      * @return the type

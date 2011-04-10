@@ -3,6 +3,11 @@
  */
 package uk.co.pekim.nodejdbc.server.request;
 
+import java.sql.Connection;
+import java.util.Map;
+
+import org.glassfish.grizzly.filterchain.FilterChainContext;
+
 import uk.co.pekim.nodejdbc.server.response.Response;
 
 /**
@@ -13,7 +18,16 @@ import uk.co.pekim.nodejdbc.server.response.Response;
 public abstract class Request {
     private String type;
 
-    protected abstract Response process();
+    /**
+     * Process the request.
+     * 
+     * @param context
+     *            the context
+     * @param connections
+     *            connections associated with contexts.
+     * @return the generated response.
+     */
+    protected abstract Response process(FilterChainContext context, Map<FilterChainContext, Connection> connections);
 
     /**
      * @return the type

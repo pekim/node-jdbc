@@ -26,7 +26,14 @@ Connection = function (url, connectedCallback) {
     buffer.on('payload', function payload(payload) {
       var message = JSON.parse(payload);
 
-      connectedCallback();
+      switch (message.type) {
+      case 'connect':
+        connectedCallback();
+        break;
+      default:
+        self.emit('error', message);
+        break;
+      }
     });
 
     socket.on('data', function data(data) {

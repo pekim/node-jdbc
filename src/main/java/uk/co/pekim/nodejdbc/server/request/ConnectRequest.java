@@ -6,7 +6,9 @@ package uk.co.pekim.nodejdbc.server.request;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 
+import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +27,11 @@ public class ConnectRequest extends Request {
     private String url;
 
     @Override
-    protected Response process() {
+    protected Response process(final FilterChainContext context, final Map<FilterChainContext, Connection> connections) {
         try {
             LOGGER.info("url : " + url);
             Connection connection = DriverManager.getConnection(url);
+            connections.put(context, connection);
 
             return new ConnectResponse();
         } catch (SQLException exception) {

@@ -19,3 +19,16 @@ exports.connected = function(test){
     test.done();
   });
 };
+
+exports.connectError = function(test){
+  var connection;
+
+  test.expect(0);
+  
+  connection = new Connection('jdbc:bad', function connected() {
+  });
+  
+  connection.on('error', function(message) {
+    test.done();
+  });
+};

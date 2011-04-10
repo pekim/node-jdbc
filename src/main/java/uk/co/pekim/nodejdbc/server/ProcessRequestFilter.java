@@ -4,6 +4,10 @@
 package uk.co.pekim.nodejdbc.server;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,6 +29,8 @@ public class ProcessRequestFilter extends BaseFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessRequestFilter.class);
 
     private ExecutorService pool = Executors.newFixedThreadPool(20);
+    private Map<FilterChainContext, Connection> connections = Collections
+            .synchronizedMap(new HashMap<FilterChainContext, Connection>());
 
     @Override
     public NextAction handleRead(final FilterChainContext context) throws IOException {
@@ -34,7 +40,7 @@ public class ProcessRequestFilter extends BaseFilter {
             final NextAction suspendAction = context.getSuspendAction();
 
             context.suspend();
-            pool.execute(new RequestProcessor(context));
+            pool.execute(new RequestProcessor(context, connections));
 
             return suspendAction;
         }

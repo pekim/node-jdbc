@@ -8,10 +8,14 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.co.pekim.nodejdbc.NodeJdbcException;
 import uk.co.pekim.nodejdbc.netstring.Netstring;
@@ -22,7 +26,9 @@ import uk.co.pekim.nodejdbc.netstring.Netstring;
  * @author Mike D Pilsbury
  */
 public class NodeNotifier {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeNotifier.class);
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+    private static final int ALIVE_PERIOD = 1000;
 
     private OutputStreamWriter output;
 
@@ -36,6 +42,8 @@ public class NodeNotifier {
         try {
             final Socket socket = new Socket(InetAddress.getLocalHost(), port);
             output = new OutputStreamWriter(socket.getOutputStream());
+
+            initAlive();
         } catch (UnknownHostException exception) {
             throw new NodeJdbcException("Failed to connect to node", exception);
         } catch (IOException exception) {
@@ -62,7 +70,28 @@ public class NodeNotifier {
         } catch (JsonMappingException exception) {
             throw new NodeJdbcException("Failed to create JSON from " + message, exception);
         } catch (IOException exception) {
-            throw new NodeJdbcException("Failed to send JSON for " + message, exception);
+            LOGGER.error("Shutting down because node server no longer available", exception);
+
+            // TODO Implement a much cleaner shutdown.
+            System.exit(1);
+        }
+    }
+
+    private void initAlive() {
+        final NotifyMessage message = new AliveMessage();
+        Timer timer = new Timer("node-alive", true);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                send(message);
+            }
+        }, ALIVE_PERIOD, ALIVE_PERIOD);
+    }
+
+    private final class AliveMessage extends NotifyMessage {
+        private AliveMessage() {
+            super("alive");
         }
     }
 }

@@ -14,7 +14,7 @@ Server = function () {
 
     buffer.on('payload', function payload(payload) {
       var message = JSON.parse(payload);
-      
+
       self.emit(message.type, message);
     });
 

@@ -3,15 +3,10 @@ filters
   request
     async
 
-emit initialised (ready) event
-
 tests
   node
     whole jdbc
-      do nothing
       test request
-    one command for running all tests
-  java
 
 log4j formatting
   

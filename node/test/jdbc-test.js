@@ -1,4 +1,4 @@
-var jdbc = require('../lib/jdbc.js'),
+var jdbc = require('../lib/jdbc'),
     Connection = jdbc.Connection;
 
 exports.initialised = function(test){
@@ -10,20 +10,12 @@ exports.initialised = function(test){
   });
 };
 
-//exports.initialised2 = function(test){
-//  test.expect(1);
-//  
-//  jdbc.onInitialised(function initialiseEvent() {
-//    test.ok(true);
-//    test.done();
-//  });
-//};
+exports.connected = function(test){
+  var connection;
 
-//exports.connected = function(test){
-//  test.expect(0);
-//  
-//  console.log(Connection);
-////  var connection = new Connection(function connected() {
-//    test.done();
-////  });
-//};
+  test.expect(0);
+  
+  connection = new Connection('jdbc:hsqldb:mem:', function connected() {
+    test.done();
+  });
+};

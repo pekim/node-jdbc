@@ -2,8 +2,9 @@ var util = require('util'),
     events = require('events'),
     nodeServer = require('./node-server'),
     javaServer = require('./java-server'),
-    Connection = require('./connection'),
-    Jdbc;
+    connection = require('./connection'),
+    Jdbc,
+    jdbc;
 
 Jdbc = function () {
   var self = this;
@@ -13,7 +14,9 @@ Jdbc = function () {
   javaServer.start({port: nodeServer.port()});
 
   nodeServer.on('initialised', function onMessage(message) {
+    javaServer.port = message.port;
     self.initialised = true;
+
     self.emit('initialised');
   });
 };
@@ -28,6 +31,12 @@ Jdbc.prototype.onInitialised = function(callback) {
     }
 };
 
-Jdbc.prototype.Connection = Connection;
+Jdbc.prototype.sendRequest = function(request, callback) {
+};
 
-module.exports = new Jdbc();
+Jdbc.prototype.Connection = connection.Connection;
+
+jdbc = new Jdbc();
+
+connection.jdbc(jdbc);
+module.exports = jdbc;

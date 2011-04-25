@@ -1,14 +1,14 @@
 /**
  * 
  */
-package uk.co.pekim.nodejdbc;
+package uk.co.pekim.nodejdbc.connection.create;
+
+import static uk.co.pekim.nodejdbc.connection.Connections.CONNECTIONS;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -22,25 +22,16 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
  * 
  * @author Mike D Pilsbury
  */
-public class ConnectionHandler implements NodeJavaHandler {
-    private final Map<UUID, Connection> connections;
-
-    /**
-     * Create connection handler.
-     */
-    public ConnectionHandler() {
-        this.connections = new ConcurrentHashMap<UUID, Connection>();
-    }
-
+public class CreateConnectionHandler implements NodeJavaHandler {
     @Override
     public Class<? extends NodeJavaRequest> getRequestClass() {
-        return ConnectionRequest.class;
+        return CreateConnectionRequest.class;
     }
 
     @Override
     public NodeJavaResponse handle(final NodeJavaRequest nodeJavaRequest) {
-        ConnectionRequest request = (ConnectionRequest) nodeJavaRequest;
-        ConnectionResponse response = new ConnectionResponse();
+        CreateConnectionRequest request = (CreateConnectionRequest) nodeJavaRequest;
+        CreateConnectionResponse response = new CreateConnectionResponse();
 
         try {
             if (StringUtils.isNotEmpty(request.getDriverClassname())) {
@@ -50,7 +41,7 @@ public class ConnectionHandler implements NodeJavaHandler {
             Connection connection = DriverManager.getConnection(request.getUrl());
             UUID id = UUID.randomUUID();
 
-            connections.put(id, connection);
+            CONNECTIONS.put(id, connection);
 
             response.setConnectionIdentifier(id.toString());
 

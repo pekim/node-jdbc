@@ -17,8 +17,8 @@ exports.connection = function(test){
   
   var jdbc = new Jdbc();
   jdbc.onInitialised(function initialiseEvent() {
-    jdbc.createConnection('jdbc:hsqldb:mem:test', undefined, function() {
-      test.ok(true);
+    jdbc.createConnection('jdbc:hsqldb:mem:test', undefined, function(connection) {
+      test.ok(connection.connectionIdentifier);
       
       jdbc.close();
       test.done();

@@ -7,13 +7,12 @@ Connection = function (java, url, driverClassname, callback) {
   
   events.EventEmitter.call(self);
 
-  java.sendRequest('uk.co.pekim.nodejdbc.ConnectionHandler',
+  java.sendRequest('uk.co.pekim.nodejdbc.connection.create.CreateConnectionHandler',
       {
         url: url,
         driverClassname: driverClassname
       },
       function(response) {
-        console.log('response : ' + response);
         callback(response);
       }
   );

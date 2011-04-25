@@ -1,0 +1,50 @@
+# http://www.websequencediagrams.com/?lz=cGFydGljaXBhbnQgImNsaWVudCIgYXMgYwoADQ1qYXZhXG4obm9kZSkAGwVqABIObm9kZS1zZXJ2ZXIAGg1ucwA2EgAUFGoAGQ9KAGoGSlZNAGkGSgoKYy0-ajogY3JlYXRlCmFjdGl2YXRlIGMKAAIKagpqLT5ucwAcCQAHB2dldFBvcnQoKQAsCm5zCm5zLQBMBSJsaXN0ZW5pbmcgcG9ydCAjIgpkZQAdDApqLT5qAEwJIACBfwUAgWQHACsHKQAmDGoAgQULcwpqcy0-SgASKnMAgU8KSgpKAIFHBgCBEBAAgTQSSjoAgScMSgoKbnMAgicFaW5pdGlhbGlzZWQAghkMAIFRDmotPmMAHQ4AgUANAIIBC2MAgnwIcmVxdWVzdACCeQwAgnYOanMAEhMAggQKAC8RSgpKLQAuCHNwb25zZQCBQw5qAIMlBwALE2pzCmotAIE-BQAnFACBMQ8&s=rose
+
+participant "client" as c
+participant "java\n(node)" as j
+participant "node-server\n(node)" as ns
+participant "java-server\n(node)" as js
+participant "Java\n(JVM)" as J
+
+c->j: create
+activate c
+
+activate j
+j->ns: create
+j->ns: getPort()
+activate ns
+ns-->j: "listening port #"
+deactivate ns
+
+j->js: create (node-server port #)
+deactivate j
+activate js
+js->J: create (node-server port #)
+deactivate js
+activate J
+J->ns: listening port #
+activate ns
+ns-->J:
+deactivate J
+
+ns->j: initialised
+activate j
+deactivate ns
+j->c: initialised
+deactivate j
+deactivate c
+
+c->j: request
+activate c
+activate j
+j->js: request
+activate js
+js->J: request
+activate J
+J-->js: response
+deactivate J
+js-->j: response
+deactivatejs
+j-->c: response
+deactivate j
+deactivate c

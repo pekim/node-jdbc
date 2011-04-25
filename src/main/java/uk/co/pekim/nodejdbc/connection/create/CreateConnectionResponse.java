@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.pekim.nodejdbc;
+package uk.co.pekim.nodejdbc.connection.create;
 
 import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
 
@@ -10,7 +10,7 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
  * 
  * @author Mike D Pilsbury
  */
-public class ConnectionResponse implements NodeJavaResponse {
+public class CreateConnectionResponse implements NodeJavaResponse {
     private String connectionIdentifier;
 
     /**

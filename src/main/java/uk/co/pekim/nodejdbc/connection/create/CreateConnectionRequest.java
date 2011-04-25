@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.pekim.nodejdbc;
+package uk.co.pekim.nodejdbc.connection.create;
 
 import uk.co.pekim.nodejava.nodehandler.NodeJavaRequest;
 
@@ -10,7 +10,7 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaRequest;
  * 
  * @author Mike D Pilsbury
  */
-public class ConnectionRequest implements NodeJavaRequest {
+public class CreateConnectionRequest implements NodeJavaRequest {
     private String url;
     private String driverClassname;
 

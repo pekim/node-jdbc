@@ -11,36 +11,21 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
  * @author Mike D Pilsbury
  */
 public class ConnectionResponse implements NodeJavaResponse {
-    private String text;
-    private int incrementedNumber;
+    private String connectionIdentifier;
 
     /**
-     * @param text
-     *            the text to set
+     * @return the connectionIdentifier
      */
-    public void setText(final String text) {
-        this.text = text;
+    public String getConnectionIdentifier() {
+        return connectionIdentifier;
     }
 
     /**
-     * @return the text
+     * @param connectionIdentifier
+     *            the connectionIdentifier to set
      */
-    public String getText() {
-        return text;
+    public void setConnectionIdentifier(final String connectionIdentifier) {
+        this.connectionIdentifier = connectionIdentifier;
     }
 
-    /**
-     * @param number
-     *            the number to set
-     */
-    public void setIncrementedNumber(final int number) {
-        this.incrementedNumber = number;
-    }
-
-    /**
-     * @return the number
-     */
-    public int getIncrementedNumber() {
-        return incrementedNumber;
-    }
 }

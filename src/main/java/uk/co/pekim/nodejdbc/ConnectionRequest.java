@@ -11,36 +11,37 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaRequest;
  * @author Mike D Pilsbury
  */
 public class ConnectionRequest implements NodeJavaRequest {
-    private String text;
-    private int number;
+    private String url;
+    private String driverClassname;
 
     /**
-     * @param text
-     *            the text to set
+     * @return the url
      */
-    public void setText(final String text) {
-        this.text = text;
+    public String getUrl() {
+        return url;
     }
 
     /**
-     * @return the text
+     * @param url
+     *            the url to set
      */
-    public String getText() {
-        return text;
+    public void setUrl(final String url) {
+        this.url = url;
     }
 
     /**
-     * @param number
-     *            the number to set
+     * @return the driverClassname
      */
-    public void setNumber(final int number) {
-        this.number = number;
+    public String getDriverClassname() {
+        return driverClassname;
     }
 
     /**
-     * @return the number
+     * @param driverClassname
+     *            the driverClassname to set
      */
-    public int getNumber() {
-        return number;
+    public void setDriverClassname(final String driverClassname) {
+        this.driverClassname = driverClassname;
     }
+
 }

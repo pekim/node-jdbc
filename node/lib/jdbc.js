@@ -1,8 +1,8 @@
 var util = require('util'),
     events = require('events'),
-    nodeServer = require('./node-server'),
-    javaServer = require('./java-server'),
+    Java = require('java'),
     connection = require('./connection'),
+    classpath = __dirname + '/../../target/node-jdbc-0.0.1-SNAPSHOT-jar-with-dependencies.jar',
     Jdbc,
     jdbc;
 
@@ -11,12 +11,9 @@ Jdbc = function () {
 
   events.EventEmitter.call(self);
   
-  javaServer.start({port: nodeServer.port()});
-
-  nodeServer.on('initialised', function onMessage(message) {
-    javaServer.port = message.port;
+  self.java = new Java({classpath: classpath});
+  self.java.onInitialised(function initialiseEvent() {
     self.initialised = true;
-
     self.emit('initialised');
   });
 };
@@ -24,19 +21,22 @@ Jdbc = function () {
 util.inherits(Jdbc, events.EventEmitter);
 
 Jdbc.prototype.onInitialised = function(callback) {
-    if (this.initialised) {
-      callback();
-    } else {
-      this.on('initialised', callback);
-    }
+  if (this.initialised) {
+    callback();
+  } else {
+    this.on('initialised', callback);
+  }
 };
 
-Jdbc.prototype.sendRequest = function(request, callback) {
+Jdbc.prototype.close = function(callback) {
+  this.java.shutdown();
 };
 
-Jdbc.prototype.Connection = connection.Connection;
+Jdbc.prototype.createConnection = function(url, driverClassname, callback) {
+  new connection.Connection(this.java, url, driverClassname, callback);
+}
 
-jdbc = new Jdbc();
+//jdbc = new Jdbc();
 
-connection.jdbc(jdbc);
-module.exports = jdbc;
+//connection.jdbc(jdbc);
+module.exports = Jdbc;

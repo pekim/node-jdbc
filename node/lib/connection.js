@@ -2,13 +2,16 @@ var util = require('util'),
     events = require('events'),
     Connection;
 
-Connection = function (java, url, callback) {
+Connection = function (java, url, driverClassname, callback) {
   var self = this;
   
   events.EventEmitter.call(self);
 
   java.sendRequest('uk.co.pekim.nodejdbc.ConnectionHandler',
-      {text: 'something', number: 1},
+      {
+        url: url,
+        driverClassname: driverClassname
+      },
       function(response) {
         console.log('response : ' + response);
         callback(response);

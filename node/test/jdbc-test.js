@@ -1,4 +1,4 @@
-var Jdbc = require('../lib/jdbc-2');
+var Jdbc = require('../lib/jdbc');
 
 exports.initialised = function(test){
   test.expect(1);
@@ -17,7 +17,7 @@ exports.connection = function(test){
   
   var jdbc = new Jdbc();
   jdbc.onInitialised(function initialiseEvent() {
-    jdbc.createConnection('url', function() {
+    jdbc.createConnection('jdbc:hsqldb:mem:test', undefined, function() {
       test.ok(true);
       
       jdbc.close();

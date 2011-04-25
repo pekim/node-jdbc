@@ -14,57 +14,17 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>repository.springframework.maven.release</id>
-      <name>Spring Framework Maven Release Repository</name>
-      <url>http://maven.springframework.org/release</url>
-    </repository>
-    <repository>
-      <id>glassfish-maven2-repository.dev.java.net</id>
-      <name>Java.net Maven 2 Repository for GlassFish</name>
-      <url>http://download.java.net/maven/glassfish/</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.2</version>
       <scope>test</scope>
-    </dependency><!--
-    <dependency>
-      <groupId>org.springframework.integration</groupId>
-      <artifactId>spring-integration-core</artifactId>
-      <version>2.0.3.RELEASE</version>
-      <type>jar</type>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    --><dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.5.8</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.5.8</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.5.8</version>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
+      <version>1.6.1</version>
     </dependency>
     <dependency>
       <groupId>org.hsqldb</groupId>
@@ -73,21 +33,10 @@
       <type>jar</type>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>1.7.5</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.7.5</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.grizzly</groupId>
-      <artifactId>grizzly-framework</artifactId>
-      <version>2.0</version>
+    	<groupId>uk.co.pekim</groupId>
+    	<artifactId>node-java</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    	<scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -106,11 +55,6 @@
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <archive>
-            <manifest>
-              <mainClass>uk.co.pekim.nodejdbc.Main</mainClass>
-            </manifest>
-          </archive>
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>

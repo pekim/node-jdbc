@@ -1,49 +1,19 @@
 var util = require('util'),
     events = require('events'),
-    javaServer = require('./java-server'),
-    NetstringBuffer = require('./netstring-buffer'),
-    net = require('net'),
-    netstring = require('netstring'),
-    Connection,
-    jdbc;
+    Connection;
 
-Connection = function (url, connectedCallback) {
+Connection = function (java, url, callback) {
   var self = this;
   
   events.EventEmitter.call(self);
-  
-  jdbc.onInitialised(function() {
-    var socket = net.createConnection(javaServer.port),
-        buffer = new NetstringBuffer();
 
-    socket.on('connect', function connect() {
-      self.send({
-        type: 'connect',
-        url: url
-      });
-    });
-
-    buffer.on('payload', function payload(payload) {
-      var message = JSON.parse(payload);
-
-      switch (message.type) {
-      case 'connect':
-        connectedCallback();
-        break;
-      default:
-        self.emit('error', message);
-        break;
+  java.sendRequest('uk.co.pekim.nodejdbc.ConnectionHandler',
+      {text: 'something', number: 1},
+      function(response) {
+        console.log('response : ' + response);
+        callback(response);
       }
-    });
-
-    socket.on('data', function data(data) {
-      buffer.put(data);
-    });
-    
-    self.send = function(message) {
-      socket.write(netstring.nsWrite(JSON.stringify(message)));
-    }
-  });
+  );
 };
 
 util.inherits(Connection, events.EventEmitter);

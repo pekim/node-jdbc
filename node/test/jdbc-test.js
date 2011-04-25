@@ -32,3 +32,18 @@ exports.connectError = function(test){
     test.done();
   });
 };
+
+exports.metadata = function(test){
+  var connection;
+
+  test.expect(2);
+  
+  connection = new Connection('jdbc:hsqldb:mem:test', function connected() {
+    connection.metadata(['driverName', 'databaseProductName'], function(data) {
+      test.strictEqual(data.driverName, 'dn');
+      test.strictEqual(data.databaseProductName, 'dpn');
+      
+      test.done();
+    });
+  });
+};

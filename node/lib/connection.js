@@ -17,7 +17,7 @@ Connection = function (url, connectedCallback) {
         buffer = new NetstringBuffer();
 
     socket.on('connect', function connect() {
-      send({
+      self.send({
         type: 'connect',
         url: url
       });
@@ -40,13 +40,20 @@ Connection = function (url, connectedCallback) {
       buffer.put(data);
     });
     
-    function send(message) {
+    self.send = function(message) {
       socket.write(netstring.nsWrite(JSON.stringify(message)));
     }
   });
 };
 
 util.inherits(Connection, events.EventEmitter);
+
+Connection.prototype.metadata = function (requiredMetadata, callback) {
+  this.send({
+    type: 'metadata',
+    requiredMetadata: requiredMetadata
+  });
+};
 
 exports.jdbc = function(value) {
   jdbc = value;

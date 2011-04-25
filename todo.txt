@@ -1,0 +1,11 @@
+err as first arg to callbacks
+
+metadata request
+
+allow only one request on a connection at a time
+  save callback
+  remove callback when response received
+  error if request already in progress (callback defined)
+  
+Connection.close()
+

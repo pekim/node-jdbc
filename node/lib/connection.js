@@ -6,6 +6,8 @@ Connection = function (java, url, driverClassname, callback) {
   var self = this;
   
   events.EventEmitter.call(self);
+  
+  this.java = java;
 
   java.sendRequest('uk.co.pekim.nodejdbc.connection.create.CreateConnectionHandler',
       {
@@ -13,12 +15,31 @@ Connection = function (java, url, driverClassname, callback) {
         driverClassname: driverClassname
       },
       function(response) {
-        callback(response);
+        if (response.error) {
+          callback(response, self);
+        } else {
+          self.connectionIdentifier = response.connectionIdentifier;
+          callback(undefined, self);
+        }
       }
   );
 };
 
 util.inherits(Connection, events.EventEmitter);
+
+Connection.prototype.close = function (callback) {
+  this.java.sendRequest('uk.co.pekim.nodejdbc.connection.close.CloseConnectionHandler',
+      {connectionIdentifier: this.connectionIdentifier},
+      function(response) {
+        if (response.error) {
+          callback(response, this);
+        } else {
+          self.connectionIdentifier = response.connectionIdentifier;
+          callback(undefined, this);
+        }
+      }
+  );
+};
 
 Connection.prototype.metadata = function (requiredMetadata, callback) {
   this.send({

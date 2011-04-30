@@ -33,7 +33,7 @@ Jdbc.prototype.close = function(callback) {
 };
 
 Jdbc.prototype.createConnection = function(url, driverClassname, callback) {
-  new connection.Connection(this.java, url, driverClassname, callback);
+  return new connection.Connection(this.java, url, driverClassname, callback);
 }
 
 //jdbc = new Jdbc();

@@ -14,13 +14,8 @@ Connection = function (java, url, driverClassname, callback) {
         url: url,
         driverClassname: driverClassname
       },
-      function(response) {
-        if (response.error) {
-          callback(response, self);
-        } else {
-          self.connectionIdentifier = response.connectionIdentifier;
-          callback(undefined, self);
-        }
+      function(err, response) {
+        callback(err, self);
       }
   );
 };
@@ -30,13 +25,8 @@ util.inherits(Connection, events.EventEmitter);
 Connection.prototype.close = function (callback) {
   this.java.sendRequest('uk.co.pekim.nodejdbc.connection.close.CloseConnectionHandler',
       {connectionIdentifier: this.connectionIdentifier},
-      function(response) {
-        if (response.error) {
-          callback(response, this);
-        } else {
-          self.connectionIdentifier = response.connectionIdentifier;
-          callback(undefined, this);
-        }
+      function(err, response) {
+         callback(err, this);
       }
   );
 };

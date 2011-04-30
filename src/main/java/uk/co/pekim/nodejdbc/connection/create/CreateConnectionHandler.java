@@ -18,7 +18,7 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaRequest;
 import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
 
 /**
- * Handler for connection operations.
+ * Handler for creating a connection.
  * 
  * @author Mike D Pilsbury
  */

@@ -15,6 +15,10 @@ Connection = function (java, url, driverClassname, callback) {
         driverClassname: driverClassname
       },
       function(err, response) {
+        if (!err) {
+          self.connectionIdentifier = response.connectionIdentifier;
+        }
+        
         callback(err, self);
       }
   );

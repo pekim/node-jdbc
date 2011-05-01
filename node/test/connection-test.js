@@ -31,11 +31,25 @@ exports.closeConnection = function(test){
         jdbc.close();
         test.done();
       });
+    });
+  });
+};
 
-//      setTimeout(function() {
-//        jdbc.close();
-//        test.done();
-//      }, 500);
+exports.metadata = function(test){
+  test.expect(2);
+  
+  var jdbc = new Jdbc(),
+      connection;
+
+  jdbc.onInitialised(function initialiseEvent() {
+    connection = jdbc.createConnection('jdbc:hsqldb:mem:test', undefined, function(err, connection) {
+      connection.metadata(['allProceduresAreCallable', 'userName'], function(err, metadata) {
+        test.strictEqual(metadata.allProceduresAreCallable, true);
+        test.strictEqual(metadata.userName, 'SA');
+        
+        jdbc.close();
+        test.done();
+      })
     });
   });
 };

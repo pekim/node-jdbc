@@ -35,11 +35,16 @@ Connection.prototype.close = function (callback) {
   );
 };
 
-Connection.prototype.metadata = function (requiredMetadata, callback) {
-  this.send({
-    type: 'metadata',
-    requiredMetadata: requiredMetadata
-  });
+Connection.prototype.metadata = function (dataNames, callback) {
+  this.java.sendRequest('uk.co.pekim.nodejdbc.metadata.MetadataHandler',
+      {
+        connectionIdentifier: this.connectionIdentifier,
+        dataNames: dataNames
+      },
+      function(err, response) {
+         callback(err, response.data);
+      }
+  );
 };
 
 exports.jdbc = function(value) {

@@ -3,6 +3,7 @@
  */
 package uk.co.pekim.nodejdbc.metadata;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -25,6 +26,7 @@ public class MetadataTest {
     private static final String HQQLDB_CONNECTION_URL = "jdbc:hsqldb:mem:test";
 
     private String connectionIdentifier;
+    private MetadataRequest request;
 
     @Before
     public void createConnection() {
@@ -32,7 +34,9 @@ public class MetadataTest {
         request.setUrl(HQQLDB_CONNECTION_URL);
         CreateConnectionResponse response = new CreateConnectionHandler().handle(request);
 
-        connectionIdentifier = response.getConnectionIdentifier();
+        this.connectionIdentifier = response.getConnectionIdentifier();
+        this.request = new MetadataRequest();
+        this.request.setConnectionIdentifier(this.connectionIdentifier);
     }
 
     @After
@@ -44,8 +48,6 @@ public class MetadataTest {
 
     @Test(expected = NodeJavaException.class)
     public void testUnsupportedDataName() {
-        MetadataRequest request = new MetadataRequest();
-        request.setConnectionIdentifier(connectionIdentifier);
         request.addDataName("bad");
 
         new MetadataHandler().handle(request);
@@ -53,12 +55,19 @@ public class MetadataTest {
 
     @Test
     public void testBoolean() {
-        MetadataRequest request = new MetadataRequest();
-        request.setConnectionIdentifier(connectionIdentifier);
         request.addDataName("allProceduresAreCallable");
 
         MetadataResponse response = new MetadataHandler().handle(request);
 
         assertTrue((Boolean) response.getData().get("allProceduresAreCallable"));
+    }
+
+    @Test
+    public void testString() {
+        request.addDataName("userName");
+
+        MetadataResponse response = new MetadataHandler().handle(request);
+
+        assertEquals("SA", (String) response.getData().get("userName"));
     }
 }

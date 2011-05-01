@@ -27,6 +27,7 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         FUNCTIONS = new HashMap<String, MetadataHandler.Function<?>>();
 
         FUNCTIONS.put("allProceduresAreCallable", new AllProceduresAreCallable());
+        FUNCTIONS.put("userName", new UserName());
     }
 
     @Override
@@ -66,6 +67,13 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         @Override
         public Boolean execute(final DatabaseMetaData metaData) throws SQLException {
             return metaData.allProceduresAreCallable();
+        }
+    }
+
+    private static final class UserName implements Function<String> {
+        @Override
+        public String execute(final DatabaseMetaData metaData) throws SQLException {
+            return metaData.getUserName();
         }
     }
 }

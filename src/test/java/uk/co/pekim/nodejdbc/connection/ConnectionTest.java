@@ -20,10 +20,15 @@ import uk.co.pekim.nodejdbc.connection.create.CreateConnectionResponse;
  * @author Mike D Pilsbury
  */
 public class ConnectionTest {
+    /**
+     * 
+     */
+    private static final String HQQLDB_CONNECTION_URL = "jdbc:hsqldb:mem:test";
+
     @Test
     public void testConnectionCreation() {
         CreateConnectionRequest request = new CreateConnectionRequest();
-        request.setUrl("jdbc:hsqldb:mem:test");
+        request.setUrl(HQQLDB_CONNECTION_URL);
         CreateConnectionResponse response = (CreateConnectionResponse) new CreateConnectionHandler().handle(request);
 
         assertNotNull(response.getConnectionIdentifier());
@@ -32,7 +37,7 @@ public class ConnectionTest {
     @Test
     public void testConnectionClosing() {
         CreateConnectionRequest createRequest = new CreateConnectionRequest();
-        createRequest.setUrl("jdbc:hsqldb:mem:test");
+        createRequest.setUrl(HQQLDB_CONNECTION_URL);
         CreateConnectionResponse createResponse = (CreateConnectionResponse) new CreateConnectionHandler()
                 .handle(createRequest);
 

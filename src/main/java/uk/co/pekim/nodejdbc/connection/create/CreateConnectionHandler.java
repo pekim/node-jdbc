@@ -14,23 +14,20 @@ import org.apache.commons.lang.StringUtils;
 
 import uk.co.pekim.nodejava.NodeJavaException;
 import uk.co.pekim.nodejava.nodehandler.NodeJavaHandler;
-import uk.co.pekim.nodejava.nodehandler.NodeJavaRequest;
-import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
 
 /**
  * Handler for creating a connection.
  * 
  * @author Mike D Pilsbury
  */
-public class CreateConnectionHandler implements NodeJavaHandler {
+public class CreateConnectionHandler implements NodeJavaHandler<CreateConnectionRequest, CreateConnectionResponse> {
     @Override
-    public Class<? extends NodeJavaRequest> getRequestClass() {
+    public Class<CreateConnectionRequest> getRequestClass() {
         return CreateConnectionRequest.class;
     }
 
     @Override
-    public NodeJavaResponse handle(final NodeJavaRequest nodeJavaRequest) {
-        CreateConnectionRequest request = (CreateConnectionRequest) nodeJavaRequest;
+    public CreateConnectionResponse handle(final CreateConnectionRequest request) {
         CreateConnectionResponse response = new CreateConnectionResponse();
 
         try {

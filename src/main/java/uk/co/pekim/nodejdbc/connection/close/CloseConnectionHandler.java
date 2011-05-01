@@ -11,23 +11,20 @@ import java.util.UUID;
 
 import uk.co.pekim.nodejava.NodeJavaException;
 import uk.co.pekim.nodejava.nodehandler.NodeJavaHandler;
-import uk.co.pekim.nodejava.nodehandler.NodeJavaRequest;
-import uk.co.pekim.nodejava.nodehandler.NodeJavaResponse;
 
 /**
  * Handler for closing a connection.
  * 
  * @author Mike D Pilsbury
  */
-public class CloseConnectionHandler implements NodeJavaHandler {
+public class CloseConnectionHandler implements NodeJavaHandler<CloseConnectionRequest, CloseConnectionResponse> {
     @Override
-    public Class<? extends NodeJavaRequest> getRequestClass() {
+    public Class<CloseConnectionRequest> getRequestClass() {
         return CloseConnectionRequest.class;
     }
 
     @Override
-    public NodeJavaResponse handle(final NodeJavaRequest nodeJavaRequest) {
-        CloseConnectionRequest request = (CloseConnectionRequest) nodeJavaRequest;
+    public CloseConnectionResponse handle(final CloseConnectionRequest request) {
         CloseConnectionResponse response = new CloseConnectionResponse();
 
         try {

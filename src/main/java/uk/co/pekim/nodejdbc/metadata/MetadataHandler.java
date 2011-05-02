@@ -30,6 +30,7 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         FUNCTIONS.put("catalogs", new Catalogs());
         FUNCTIONS.put("userName", new UserName());
         FUNCTIONS.put("databaseMajorVersion", new DatabaseMajorVersion());
+        FUNCTIONS.put("schemas", new Schemas());
     }
 
     @Override
@@ -90,6 +91,13 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         @Override
         public ResultSetData execute(final DatabaseMetaData metaData) throws SQLException {
             return new ResultSetData(metaData.getCatalogs());
+        }
+    }
+
+    private static final class Schemas implements Function<ResultSetData> {
+        @Override
+        public ResultSetData execute(final DatabaseMetaData metaData) throws SQLException {
+            return new ResultSetData(metaData.getSchemas());
         }
     }
 }

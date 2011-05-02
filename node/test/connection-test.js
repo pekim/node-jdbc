@@ -75,3 +75,20 @@ exports.metadataResultSet = function(test){
     });
   });
 };
+
+exports.metadataResultSet2 = function(test){
+  test.expect(0);
+  
+  var jdbc = new Jdbc(),
+      connection;
+
+  jdbc.onInitialised(function initialiseEvent() {
+    connection = jdbc.createConnection('jdbc:hsqldb:mem:test', undefined, function(err, connection) {
+      connection.metadata(['schemas'], function(err, metadata) {
+
+        jdbc.close();
+        test.done();
+      })
+    });
+  });
+};

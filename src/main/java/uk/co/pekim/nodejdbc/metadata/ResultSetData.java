@@ -18,21 +18,39 @@ import java.util.Map;
  * @author Mike D Pilsbury
  */
 final class ResultSetData {
-    private final Map<String, Object> columns = new HashMap<String, Object>();
+    private final Map<String, Column> columns = new HashMap<String, Column>();
     private final List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 
-    private static final class Column {
+    /**
+     * Column data.
+     * 
+     * @author Mike D Pilsbury
+     */
+    public static final class Column {
         private final String type;
 
         private Column(final String type) {
             this.type = type;
         }
 
+        /**
+         * The column's type. For example "VARCHAR".
+         * 
+         * @return the type.
+         */
         public String getType() {
             return type;
         }
     }
 
+    /**
+     * Create a result set.
+     * 
+     * @param resultSet
+     *            the result set to extract data from
+     * @throws SQLException
+     *             if something went wrong extracting the data.
+     */
     ResultSetData(final ResultSet resultSet) throws SQLException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
@@ -60,7 +78,7 @@ final class ResultSetData {
     /**
      * @return the columns
      */
-    public Map<String, Object> getColumns() {
+    public Map<String, Column> getColumns() {
         return columns;
     }
 

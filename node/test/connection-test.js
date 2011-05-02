@@ -35,7 +35,7 @@ exports.closeConnection = function(test){
   });
 };
 
-exports.metadataSimple = function(test){
+exports.metadataSimpleTypes = function(test){
   test.expect(2);
   
   var jdbc = new Jdbc(),

@@ -6,6 +6,9 @@ package uk.co.pekim.nodejdbc.metadata;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +19,7 @@ import uk.co.pekim.nodejdbc.connection.close.CloseConnectionRequest;
 import uk.co.pekim.nodejdbc.connection.create.CreateConnectionHandler;
 import uk.co.pekim.nodejdbc.connection.create.CreateConnectionRequest;
 import uk.co.pekim.nodejdbc.connection.create.CreateConnectionResponse;
+import uk.co.pekim.nodejdbc.metadata.ResultSetData.Column;
 
 /**
  * Test metadata retrieval.
@@ -86,6 +90,14 @@ public class MetadataHandlerTest {
         request.addDataName(dataName);
         MetadataResponse response = new MetadataHandler().handle(request);
 
-        System.out.println(response.getData().get(dataName));
+        ResultSetData resultSet = (ResultSetData) response.getData().get(dataName);
+        Map<String, Column> columns = resultSet.getColumns();
+        List<Map<String, Object>> rows = resultSet.getRows();
+
+        assertEquals(1, columns.size());
+        assertEquals("VARCHAR", columns.get("CATALOG_NAME").getType());
+
+        assertEquals(1, rows.size());
+        assertEquals("PUBLIC", rows.get(0).get("CATALOG_NAME"));
     }
 }

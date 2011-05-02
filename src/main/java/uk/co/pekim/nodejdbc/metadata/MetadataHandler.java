@@ -27,7 +27,9 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         FUNCTIONS = new HashMap<String, MetadataHandler.Function<?>>();
 
         FUNCTIONS.put("allProceduresAreCallable", new AllProceduresAreCallable());
+        FUNCTIONS.put("catalogs", new Catalogs());
         FUNCTIONS.put("userName", new UserName());
+        FUNCTIONS.put("databaseMajorVersion", new DatabaseMajorVersion());
     }
 
     @Override
@@ -74,6 +76,20 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         @Override
         public String execute(final DatabaseMetaData metaData) throws SQLException {
             return metaData.getUserName();
+        }
+    }
+
+    private static final class DatabaseMajorVersion implements Function<Integer> {
+        @Override
+        public Integer execute(final DatabaseMetaData metaData) throws SQLException {
+            return metaData.getDatabaseMajorVersion();
+        }
+    }
+
+    private static final class Catalogs implements Function<ResultSetData> {
+        @Override
+        public ResultSetData execute(final DatabaseMetaData metaData) throws SQLException {
+            return new ResultSetData(metaData.getCatalogs());
         }
     }
 }

@@ -22,7 +22,7 @@ import uk.co.pekim.nodejdbc.connection.create.CreateConnectionResponse;
  * 
  * @author Mike D Pilsbury
  */
-public class MetadataTest {
+public class MetadataHandlerTest {
     private static final String HQQLDB_CONNECTION_URL = "jdbc:hsqldb:mem:test";
 
     private String connectionIdentifier;
@@ -55,19 +55,37 @@ public class MetadataTest {
 
     @Test
     public void testBoolean() {
-        request.addDataName("allProceduresAreCallable");
-
+        String dataName = "allProceduresAreCallable";
+        request.addDataName(dataName);
         MetadataResponse response = new MetadataHandler().handle(request);
 
-        assertTrue((Boolean) response.getData().get("allProceduresAreCallable"));
+        assertTrue((Boolean) response.getData().get(dataName));
     }
 
     @Test
     public void testString() {
-        request.addDataName("userName");
-
+        String dataName = "userName";
+        request.addDataName(dataName);
         MetadataResponse response = new MetadataHandler().handle(request);
 
-        assertEquals("SA", (String) response.getData().get("userName"));
+        assertEquals("SA", (String) response.getData().get(dataName));
+    }
+
+    @Test
+    public void testInteger() {
+        String dataName = "databaseMajorVersion";
+        request.addDataName(dataName);
+        MetadataResponse response = new MetadataHandler().handle(request);
+
+        assertEquals(Integer.valueOf(2), (Integer) response.getData().get(dataName));
+    }
+
+    @Test
+    public void testResultSet() {
+        String dataName = "catalogs";
+        request.addDataName(dataName);
+        MetadataResponse response = new MetadataHandler().handle(request);
+
+        System.out.println(response.getData().get(dataName));
     }
 }

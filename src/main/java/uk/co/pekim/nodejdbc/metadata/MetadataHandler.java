@@ -14,6 +14,12 @@ import java.util.UUID;
 
 import uk.co.pekim.nodejava.NodeJavaException;
 import uk.co.pekim.nodejava.nodehandler.NodeJavaHandler;
+import uk.co.pekim.nodejdbc.metadata.function.AllProceduresAreCallable;
+import uk.co.pekim.nodejdbc.metadata.function.Catalogs;
+import uk.co.pekim.nodejdbc.metadata.function.DatabaseMajorVersion;
+import uk.co.pekim.nodejdbc.metadata.function.MetadataFunction;
+import uk.co.pekim.nodejdbc.metadata.function.Schemas;
+import uk.co.pekim.nodejdbc.metadata.function.UserName;
 
 /**
  * Handler for getting meta data for a connection.
@@ -21,10 +27,10 @@ import uk.co.pekim.nodejava.nodehandler.NodeJavaHandler;
  * @author Mike D Pilsbury
  */
 public class MetadataHandler implements NodeJavaHandler<MetadataRequest, MetadataResponse> {
-    private static final Map<String, Function<?>> FUNCTIONS;
+    private static final Map<String, MetadataFunction<?>> FUNCTIONS;
 
     static {
-        FUNCTIONS = new HashMap<String, MetadataHandler.Function<?>>();
+        FUNCTIONS = new HashMap<String, MetadataFunction<?>>();
 
         FUNCTIONS.put("allProceduresAreCallable", new AllProceduresAreCallable());
         FUNCTIONS.put("catalogs", new Catalogs());
@@ -59,45 +65,6 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
             return response;
         } catch (SQLException exception) {
             throw new NodeJavaException("Failed to get metadata, " + request.getDataNames(), exception);
-        }
-    }
-
-    private interface Function<T> {
-        T execute(DatabaseMetaData metaData) throws SQLException;
-    }
-
-    private static final class AllProceduresAreCallable implements Function<Boolean> {
-        @Override
-        public Boolean execute(final DatabaseMetaData metaData) throws SQLException {
-            return metaData.allProceduresAreCallable();
-        }
-    }
-
-    private static final class UserName implements Function<String> {
-        @Override
-        public String execute(final DatabaseMetaData metaData) throws SQLException {
-            return metaData.getUserName();
-        }
-    }
-
-    private static final class DatabaseMajorVersion implements Function<Integer> {
-        @Override
-        public Integer execute(final DatabaseMetaData metaData) throws SQLException {
-            return metaData.getDatabaseMajorVersion();
-        }
-    }
-
-    private static final class Catalogs implements Function<ResultSetData> {
-        @Override
-        public ResultSetData execute(final DatabaseMetaData metaData) throws SQLException {
-            return new ResultSetData(metaData.getCatalogs());
-        }
-    }
-
-    private static final class Schemas implements Function<ResultSetData> {
-        @Override
-        public ResultSetData execute(final DatabaseMetaData metaData) throws SQLException {
-            return new ResultSetData(metaData.getSchemas());
         }
     }
 }

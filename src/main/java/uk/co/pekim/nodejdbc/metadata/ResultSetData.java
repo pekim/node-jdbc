@@ -17,7 +17,7 @@ import java.util.Map;
  * 
  * @author Mike D Pilsbury
  */
-final class ResultSetData {
+public final class ResultSetData {
     private final Map<String, Column> columns = new HashMap<String, Column>();
     private final List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 
@@ -51,7 +51,7 @@ final class ResultSetData {
      * @throws SQLException
      *             if something went wrong extracting the data.
      */
-    ResultSetData(final ResultSet resultSet) throws SQLException {
+    public ResultSetData(final ResultSet resultSet) throws SQLException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
         for (int column = 1; column <= resultSetMetaData.getColumnCount(); column++) {

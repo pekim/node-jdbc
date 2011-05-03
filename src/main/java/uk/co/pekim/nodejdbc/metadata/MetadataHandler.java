@@ -44,6 +44,7 @@ public class MetadataHandler implements NodeJavaHandler<MetadataRequest, Metadat
         FUNCTIONS.put("databaseMajorVersion", new DatabaseMajorVersion());
         FUNCTIONS.put("dataDefinitionCausesTransactionCommit", new DataDefinitionCausesTransactionCommit());
         FUNCTIONS.put("dataDefinitionIgnoredInTransactions", new DataDefinitionIgnoredInTransactions());
+        // FUNCTIONS.put("deletesAreDetected", new DeletesAreDetected());
         FUNCTIONS.put("doesMaxRowSizeIncludeBlobs", new DoesMaxRowSizeIncludeBlobs());
         FUNCTIONS.put("schemas", new Schemas());
         FUNCTIONS.put("userName", new UserName());
